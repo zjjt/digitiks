@@ -124,7 +124,7 @@ class ListeVendors extends Component{
                                 }):<TableRow>
                                     <TableRowColumn colSpan="8">
                                         <div style={{textAlign:'center'}}>
-                                        Si votre recherche est infructueuse cela signifie que ce Vendeur/Bouncer n'est pas disponible dans la base ou n'a pas encore été créé.    
+                                        Le logiciel etant toujours en développement cette partie n'est pas encore fonctionnelle.
                                         </div>
                                     </TableRowColumn>
                                 </TableRow>

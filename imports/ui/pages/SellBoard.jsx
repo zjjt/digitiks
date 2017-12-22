@@ -50,9 +50,14 @@ export default class Sellboard extends Component {
                            <ActionExitToApp style={style.homeicon} 
                             color="#212f68" 
                             hoverColor="#cd9a2e" 
+                            title="Déconnectez vous"
                             className="icono"
                             title="Aller au menu"
-                            onClick={()=>{}}
+                            onClick={Meteor.logout(,(err,res)=>{
+                                if(res){
+                                    alert("Vous êtes déconnecté");
+                                }
+                            })}
                             />
                         </ToolbarGroup>
                         <ToolbarGroup>
