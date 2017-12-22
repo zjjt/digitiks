@@ -5,6 +5,8 @@ import { check } from 'meteor/check';
 import {Accounts} from 'meteor/accounts-base';
 import {moment} from 'meteor/momentjs:moment';
 import {Email} from 'meteor/email';
+import Future from 'fibers/future';
+
 import {Events,Tickets,Sales} from '../imports/api/collections.js';
 var qr = require('qr-image');  
 var fs = require('fs');
@@ -141,45 +143,76 @@ export default ()=>{
             
         },
         createSale(values){
-            let ticketsNotSold=Tickets.find({statut:"NOT_SOLD",passedEvent:false,},{sort:{dateCreation:1},limit:values.slider}).fetch();
-            let event=Events.findOne({_id:values.eventId});
-            //console.dir(ticketsNotSold);
-            if(ticketsNotSold.length===values.slider){
-                for(let i=0;i<ticketsNotSold.length;i++){
-                    //console.dir(ticketsNotSold[i]);
-                    let messagetext=`Event: ${values.eventName}
-                    Ticket N°: ${ticketsNotSold[i].ticket_no}
-                    Ticket au nom de: ${values.civilite} ${values.buyername}
-                    Contacts: ${values.telephone}
-                    Prix d'achat: ${ticketsNotSold[i].price} FCFA
-                    Date d'achat: ${moment(new Date()).format("DD-MM-YYYY")}
-                    `;
-                    var code = qr.image(messagetext, { type: 'png' }); 
-                    code.pipe(require('fs').createWriteStream(`ticket_${ticketsNotSold[i].ticket_no}_${values.eventName}QR.png`));
-                    //console.dir(code)
-                    let nv=values;
-                    nv.ticketno=ticketsNotSold[i].ticket_no;
-                    nv.nomtotal=values.civilite+" "+values.buyername;
-                    nv.codeqr=process.env.PWD+`ticket_${ticketsNotSold[i].ticket_no}_${values.eventName}QR.png`;
-                    console.log(nv.codeqr)
-                    nv.dateEvent=moment(event.date_event).format("DD-MM-YYYY");
-                    nv.timeEvent=event.heure_event;
-                    Email.send({
-                        to: values.email,
-                        from: "info@qrpass.com",
-                        subject: `Votre ticket N° ${ticketsNotSold[i].ticket_no} pour l'évènement ${values.eventName}`,
-                        html: SSR.render('htmlEmail', nv),
-                        cc:Meteor.settings.ADMINMAIL
-                      });
-                     // require('fs').unlinkSync(`ticket_${ticketsNotSold[i].ticket_no}_${values.eventName}QR.svg`);
-                   // Meteor.call("sendEmail",values.email,"info@qrpass.com",`Votre ticket N° ${ticketsNotSold[i].ticket_no} pour l'évènement ${values.eventName}` ,Meteor.settings.ADMINMAIL,nv);                       
-                }
+            this.unblock();
+            let fut=new Future();
+            if(!values.ticketsRestants){
+                throw Meteor.Error("Vous ne disposez plus de tickets à vendre.");
             }else{
-                throw new Meteor.Error("Veuillez re vérifier Il n'y a plus de tickets à vendre pour cet event");
-             }
-            
-            
-            return true;
+                let ticketsNotSold=Tickets.find({statut:"NOT_SOLD",passedEvent:false,},{sort:{dateCreation:1},limit:values.slider}).fetch();
+                let event=Events.findOne({_id:values.eventId});
+                //console.dir(ticketsNotSold);
+                if(ticketsNotSold.length===values.slider){
+                    for(let i=0;i<ticketsNotSold.length;i++){
+                        //console.dir(ticketsNotSold[i]);
+                        let messagetext=`Event: ${values.eventName}
+    Ticket N°: ${ticketsNotSold[i].ticket_no}
+    Ticket au nom de: ${values.civilite} ${values.buyername}
+    Contacts: ${values.telephone}
+    Prix d'achat: ${ticketsNotSold[i].price} FCFA
+    Date d'achat: ${moment(new Date()).format("DD-MM-YYYY")}
+                        `;
+                        var code = qr.image(messagetext, { type: 'png' }); 
+                        code.pipe(require('fs').createWriteStream(`ticket_${ticketsNotSold[i].ticket_no}_${values.eventName}QR.png`));
+                        //console.dir(code)
+                        let nv=values;
+                        let path=Meteor.rootPath+`/ticket_${ticketsNotSold[i].ticket_no}_${values.eventName}QR.png`;
+                        nv.ticketno=ticketsNotSold[i].ticket_no;
+                        nv.nomtotal=values.civilite+" "+values.buyername;
+                        nv.codeqr=path;
+                        nv.dateEvent=moment(event.date_event).format("DD-MM-YYYY");
+                        nv.timeEvent=moment(event.heure_event).format('hh:mm');
+                        
+                        console.log(Meteor.rootPath)
+
+                        Tickets.update(ticketsNotSold[i]._id,
+                            {
+                                $set:{
+                                    buyerName:`${values.civilite} ${values.buyername}`,
+                                    buyerContacts:ticketsNotSold[i].buyerContacts.push(values.telephone),
+                                    statut:"SOLD",
+                                    QRCODE:code
+
+                                }
+                            });
+                            
+                        require('fs').readFile(path,Meteor.bindEnvironment((err,res)=>{
+                            if(err){
+                                throw Meteor.Error("Erreur lors de la génération du ticket");
+                            }
+                            console.log("check res "+path);
+                            Email.send({
+                                to: values.email,
+                                from: "info@qrpass.com",
+                                subject: `Votre ticket N° ${ticketsNotSold[i].ticket_no} pour l'évènement ${values.eventName}`,
+                                html: SSR.render('htmlEmail', nv),
+                                cc:Meteor.settings.ADMINMAIL,
+                                attachments: [{
+                                    filename: `ticket_${ticketsNotSold[i].ticket_no}_${values.eventName}QR.png`,
+                                    path:path,
+                                }]
+                            });
+                            require('fs').unlinkSync(`ticket_${ticketsNotSold[i].ticket_no}_${values.eventName}QR.png`);    
+                        }));
+                        
+                        
+                    // Meteor.call("sendEmail",values.email,"info@qrpass.com",`Votre ticket N° ${ticketsNotSold[i].ticket_no} pour l'évènement ${values.eventName}` ,Meteor.settings.ADMINMAIL,nv);                       
+                    }
+                    return true
+                }else{
+                    throw new Meteor.Error("Veuillez re vérifier Il n'y a plus de tickets à vendre pour cet event");
+                }
+            }
+           // return fut.wait();
         }
     });
 };

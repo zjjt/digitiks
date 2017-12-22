@@ -80,6 +80,7 @@ class ListeEvent extends Component{
                     displaySelectAll={this.state.table.showCheckboxes}
                     adjustForCheckbox={this.state.table.showCheckboxes}
                     enableSelectAll={this.state.table.enableSelectAll}
+                    headerStyle={{color:'darkgray'}}
                 >
                     <TableRow>
                         <TableHeaderColumn tooltip="Ligne numero">N°</TableHeaderColumn>

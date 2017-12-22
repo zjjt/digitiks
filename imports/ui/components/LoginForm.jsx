@@ -17,6 +17,12 @@ const style={
       },
       floatingLabelFocusStyle: {
         color: orange500,
+      },
+      floatingLabelStyle:{
+          color:'darkgray'
+      },
+      hintStyle:{
+          color:'darkgray'
       }
 }
  class LoginForm extends Component{
@@ -86,7 +92,9 @@ const style={
                         name="username" 
                         component={TextField}
                         hintText="Entrez votre nom d'utilisateur"
+                        hintStyle={style.hintStyle}
                         floatingLabelText="Nom d'utilisateur"
+                        floatingLabelStyle={style.floatingLabelStyle}
                         fullWidth={true}
                         underlineFocusStyle={style.underlineStyle}
                         floatingLabelFocusStyle={style.floatingLabelFocusStyle}
@@ -96,6 +104,8 @@ const style={
                         component={TextField}
                         hintText="Entrez votre mot de passe"
                         floatingLabelText="Mot de passe"
+                        hintStyle={style.hintStyle}
+                        floatingLabelStyle={style.floatingLabelStyle}
                         type="password"
                         fullWidth={true}
                         underlineFocusStyle={style.underlineStyle}

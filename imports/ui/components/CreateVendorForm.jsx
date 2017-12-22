@@ -240,6 +240,8 @@ if(areIntlLocalesSupported(['fr'])){
                     hintText="Entrez le nom de famille du Vendeur/Bouncer"
                     floatingLabelText="Nom de famille"
                     fullWidth={true}
+                    floatingLabelStyle={style.floatingLabelStyle}
+                    hintStyle={style.hintStyle}
                     floatingLabelFixed={true}
                     floatingLabelFocusStyle={styles.floatingLabelStyle}
                     validate={[ required ]}
@@ -251,6 +253,8 @@ if(areIntlLocalesSupported(['fr'])){
                     hintText="Entrez les prénoms du Vendeur/Bouncer"
                     floatingLabelText="Prénoms"
                     fullWidth={true}
+                    floatingLabelStyle={style.floatingLabelStyle}
+                    hintStyle={style.hintStyle}
                     floatingLabelFixed={true}
                     validate={[ required ]}
                     floatingLabelFocusStyle={styles.floatingLabelStyle}
@@ -262,6 +266,8 @@ if(areIntlLocalesSupported(['fr'])){
                     hintText="Entrez le pseudo du Vendeur/Bouncer"
                     floatingLabelText="Nom d'utilisateur du Vendeur/Bouncer"
                     fullWidth={true}
+                    floatingLabelStyle={style.floatingLabelStyle}
+                    hintStyle={style.hintStyle}
                     floatingLabelFixed={true}
                     validate={[ required ]}
                     floatingLabelFocusStyle={styles.floatingLabelStyle}
@@ -273,6 +279,8 @@ if(areIntlLocalesSupported(['fr'])){
                     hintText="Entrez le mot de passe du Vendeur/Bouncer"
                     floatingLabelText="Mot de passe du Vendeur/Bouncer"
                     fullWidth={true}
+                    floatingLabelStyle={style.floatingLabelStyle}
+                    hintStyle={style.hintStyle}
                     floatingLabelFixed={true}
                     validate={[ required ]}
                     floatingLabelFocusStyle={styles.floatingLabelStyle}
@@ -284,6 +292,8 @@ if(areIntlLocalesSupported(['fr'])){
                     hintText="Confirmer le mot de passe du Vendeur/Bouncer"
                     floatingLabelText="Confirmation du mot de passe du Vendeur/Bouncer"
                     fullWidth={true}
+                    floatingLabelStyle={style.floatingLabelStyle}
+                    hintStyle={style.hintStyle}
                     floatingLabelFixed={true}
                     validate={[ required ]}
                     floatingLabelFocusStyle={styles.floatingLabelStyle}
@@ -295,6 +305,8 @@ if(areIntlLocalesSupported(['fr'])){
                     hintText="Entrez le numéro de téléphone (fixe ou mobile)"
                     floatingLabelText="Numéro de téléphone (fixe ou mobile)"
                     fullWidth={true}
+                    floatingLabelStyle={style.floatingLabelStyle}
+                    hintStyle={style.hintStyle}
                     floatingLabelFixed={true}
                     validate={[ required,maxLength8,number]}
                     floatingLabelFocusStyle={styles.floatingLabelStyle}
@@ -306,6 +318,8 @@ if(areIntlLocalesSupported(['fr'])){
                     hintText="Entrer l'email du Vendeur/Bouncer"
                     floatingLabelText="Email du Vendeur/Bouncer"
                     fullWidth={true}
+                    floatingLabelStyle={style.floatingLabelStyle}
+                    hintStyle={style.hintStyle}
                     type="mail"
                     floatingLabelFixed={true}
                     validate={[ required,email ]}
@@ -318,6 +332,8 @@ if(areIntlLocalesSupported(['fr'])){
                     hintText={this.props.REDAC?this.props.REDAC:"Entrez le code redacteur du Vendeur/Bouncer"}
                     floatingLabelText="Code redacteur du Vendeur/Bouncer"
                     fullWidth={true}
+                    floatingLabelStyle={style.floatingLabelStyle}
+                    hintStyle={style.hintStyle}
                     floatingLabelFixed={true}
                     validate={[ required ]}
                     floatingLabelFocusStyle={styles.floatingLabelStyle}
@@ -329,6 +345,8 @@ if(areIntlLocalesSupported(['fr'])){
                     floatingLabelText="Choix de l'Event"
                     hintText="Choix de l'Event"
                     fullWidth={true}
+                    floatingLabelStyle={style.floatingLabelStyle}
+                    hintStyle={style.hintStyle}
                     floatingLabelFixed={true}
                     //validate={[required]}
                     onChange={this.handleEventChange}
@@ -350,6 +368,8 @@ if(areIntlLocalesSupported(['fr'])){
                     hintText="Profile de l'entité"
                     floatingLabelFixed={true}
                     fullWidth={true}
+                    floatingLabelStyle={style.floatingLabelStyle}
+                    hintStyle={style.hintStyle}
                     validate={[required]}
                     value={this.props.role}
                     floatingLabelFocusStyle={styles.floatingLabelStyle}
@@ -461,6 +481,11 @@ const styles={
     underlineFocusStyle:{
         color:'gray',
         borderColor:'gray'
+    },
+    hintStyle:{
+        color:'darkgray'
+    },floatingLabelStyle:{
+        color:'darkgray'
     },
     dialogContainerStyle:{
         

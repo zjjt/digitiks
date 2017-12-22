@@ -166,8 +166,10 @@ if(areIntlLocalesSupported(['fr'])){
                     floatingLabelText="Titre de l'Event"
                     required
                     fullWidth={true}
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    hintStyle={styles.hintStyle}
                     floatingLabelFixed={true}
-                    floatingLabelFocusStyle={styles.floatingLabelStyle}
+                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                     underlineFocusStyle={styles.underlineFocusStyle}
                 />
                 <Field
@@ -178,7 +180,9 @@ if(areIntlLocalesSupported(['fr'])){
                     floatingLabelText="Lieu de l'Event"
                     fullWidth={true}
                     floatingLabelFixed={true}
-                    floatingLabelFocusStyle={styles.floatingLabelStyle}
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    hintStyle={styles.hintStyle}
+                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                     underlineFocusStyle={styles.underlineFocusStyle}
                 />
                 <Field
@@ -191,6 +195,8 @@ if(areIntlLocalesSupported(['fr'])){
                     required
                     dialogContainerStyle={styles.dialogContainerStyle}
                     fullWidth={true}
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    hintStyle={styles.hintStyle}
                     okLabel="OK"
                     cancelLabel="Annuler"
                     locale="fr"
@@ -200,7 +206,7 @@ if(areIntlLocalesSupported(['fr'])){
                         return value===''?null:value;
                     }}
                     floatingLabelFixed={true}
-                    floatingLabelFocusStyle={styles.floatingLabelStyle}
+                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                     underlineFocusStyle={styles.underlineFocusStyle}
                 />
                 <Field
@@ -213,7 +219,9 @@ if(areIntlLocalesSupported(['fr'])){
                     props={{format: "24hr"}}
                     fullWidth={true}
                     floatingLabelFixed={true}
-                    floatingLabelFocusStyle={styles.floatingLabelStyle}
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    hintStyle={styles.hintStyle}
+                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                     underlineFocusStyle={styles.underlineFocusStyle}
                 />
                 <Field
@@ -226,7 +234,9 @@ if(areIntlLocalesSupported(['fr'])){
                     max={1000000}
                     type="number"
                     floatingLabelFixed={true}
-                    floatingLabelFocusStyle={styles.floatingLabelStyle}
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    hintStyle={styles.hintStyle}
+                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                     underlineFocusStyle={styles.underlineFocusStyle}
                 />
                 <Field
@@ -237,8 +247,10 @@ if(areIntlLocalesSupported(['fr'])){
                     fullWidth={true}
                     required
                     type="number"
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    hintStyle={styles.hintStyle}
                     floatingLabelFixed={true}
-                    floatingLabelFocusStyle={styles.floatingLabelStyle}
+                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                     underlineFocusStyle={styles.underlineFocusStyle}
                 />
                 <Field
@@ -250,8 +262,10 @@ if(areIntlLocalesSupported(['fr'])){
                     max={10000}
                     fullWidth={true}
                     type="number"
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    hintStyle={styles.hintStyle}
                     floatingLabelFixed={true}
-                    floatingLabelFocusStyle={styles.floatingLabelStyle}
+                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                     underlineFocusStyle={styles.underlineFocusStyle}
                 />
                 
@@ -314,6 +328,10 @@ const styles={
     underlineFocusStyle:{
         color:'gray',
         borderColor:'gray'
+    },hintStyle:{
+        color:'darkgray'
+    },floatingLabelFocusStyle:{
+        color:'darkgray'
     },
     dialogContainerStyle:{
         

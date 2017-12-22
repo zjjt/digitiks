@@ -36,7 +36,7 @@ if(areIntlLocalesSupported(['fr'])){
             dialogIsOpen:false,
             errorMsg:'',
             eventId:Meteor.user().eventId,
-            ticketRest:Meteor.user().ticketIntervalFin-Meteor.user().ticketIntervalDebut,            
+            //Meteor.user().ticketIntervalFin-Meteor.user().ticketIntervalDebut,            
             snackOpen:false,
             snackMsg:'',
             slider:0,
@@ -59,6 +59,9 @@ if(areIntlLocalesSupported(['fr'])){
 
    componentDidUpdate(){
       
+   }
+   componentDidMount(){
+       
    }
    handleEventChange=(event,index,value)=>{
        //console.log(this.props.data.getEvents[this.props.event]);
@@ -119,6 +122,7 @@ if(areIntlLocalesSupported(['fr'])){
                //alert(JSON.stringify(values));
                values.slider=this.state.slider;
                values.eventId=this.state.eventId;
+               values.ticketsRestants=this.props.ticketsNotSoldNo-1;
                values.eventName=Meteor.user().eventName;
                 Meteor.call('createSale',values,(err)=>{
                     if(err){
@@ -131,8 +135,6 @@ if(areIntlLocalesSupported(['fr'])){
                         this.setState({
                         snackMsg:"Les "+this.state.slider+" tickets de "+values.civilite+" "+values.buyername+" ont été générés et envoyé à son adresse mail",
                         snackOpen:true,
-                        eventId:null,
-                        ticketRest:0,
                         slider:0,
                         });
                     }
@@ -161,7 +163,7 @@ if(areIntlLocalesSupported(['fr'])){
         const required = value => value ? undefined : 'Requis';
         const number = value => value && isNaN(Number(value)) ?"Ce champs n'accepte que des nombres":undefined;
         const email = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ?'Adresse e-mail invalide' : undefined
-       
+       console.log(this.props);
         return(
             <div className="formDiv">
                 <Dialog
@@ -180,7 +182,7 @@ if(areIntlLocalesSupported(['fr'])){
                 />
                 <h2 style={{textAlign:'center'}}>{Meteor.user().eventName}</h2><br/>
                 <div style={{display:'flex',width:'100%',justifyContent:"space-between"}}>
-                    <span style={{fontSize:"40px"}}>Tickets restants: <b>{this.state.ticketRest}</b></span>
+                    <span style={{fontSize:"40px"}}>Tickets restants: <b>{this.props.ticketsNotSoldNo-1}</b></span>
                     <span style={{fontSize:"40px"}}>Tickets vendus: <b>{this.props.ticketsSoldNo}</b></span>
                 </div>
                 <Divider/>
@@ -193,6 +195,8 @@ if(areIntlLocalesSupported(['fr'])){
                     fullWidth={true}
                     floatingLabelFixed={true}
                     validate={[required]}
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    hintStyle={styles.hintStyle}
                     floatingLabelFocusStyle={styles.floatingLabelStyle}
                     underlineFocusStyle={styles.underlineFocusStyle}
                 >
@@ -208,6 +212,8 @@ if(areIntlLocalesSupported(['fr'])){
                     floatingLabelText="Nom de l'acheteur"
                     fullWidth={true}
                     floatingLabelFixed={true}
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    hintStyle={styles.hintStyle}
                     floatingLabelFocusStyle={styles.floatingLabelStyle}
                     validate={[ required ]}
                     underlineFocusStyle={styles.underlineFocusStyle}
@@ -218,6 +224,8 @@ if(areIntlLocalesSupported(['fr'])){
                     hintText="Entrez le numéro de téléphone (fixe ou mobile)"
                     floatingLabelText="Numéro de téléphone (fixe ou mobile)"
                     fullWidth={true}
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    hintStyle={styles.hintStyle}
                     floatingLabelFixed={true}
                     validate={[ required,maxLength8,number]}
                     floatingLabelFocusStyle={styles.floatingLabelStyle}
@@ -226,10 +234,12 @@ if(areIntlLocalesSupported(['fr'])){
                 <Field
                     name="email" 
                     component={TextField}
-                    hintText="Entrer l'email du Vendeur/Bouncer"
-                    floatingLabelText="Email du Vendeur/Bouncer"
+                    hintText="Entrer l'email de l'acheteur"
+                    floatingLabelText="Email de l'acheteur"
                     fullWidth={true}
                     type="mail"
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    hintStyle={styles.hintStyle}
                     floatingLabelFixed={true}
                     validate={[ required,email ]}
                     floatingLabelFocusStyle={styles.floatingLabelStyle}
@@ -238,10 +248,10 @@ if(areIntlLocalesSupported(['fr'])){
                 
                 
                     <div style={{display:'flex',flexDirection:'column'}}>
-                        <p style={{flexGrow:1,textAlign:'center'}}>Nombre de tickets restants pour cet Event:<b>{this.state.ticketRest}</b> | Nombre de tickets attribués au Vendeur/Bouncer:<b>{this.state.slider}</b></p>
+                        <p style={{flexGrow:1,textAlign:'center'}}>Nombre de tickets restants à vendre pour cet Event:<b>{this.state.ticketRest}</b> | Nombre de tickets attribués à l'acheteur:<b>{this.state.slider}</b></p>
                         <Slider
                             min={0}
-                            max={this.state.ticketRest>0?this.state.ticketRest:1}
+                            max={this.props.ticketsNotSoldNo-1>0?this.props.ticketsNotSoldNo-1:1}
                             step={1}
                             value={this.state.slider}
                             onChange={this.handleChangeS}
@@ -282,14 +292,16 @@ CreateSaleForm=reduxForm({
 export default createContainer(()=>{
     const tickethandle=Meteor.subscribe('TicketsSold');
     const loading=!tickethandle.ready();
-    const ticketsone=Tickets.findOne({statut:"SOLD"});    
+    const ticketsone=Tickets.findOne({vendorCodeRedac:Meteor.user().codeRedac,statut:"NOT_SOLD"});    
     const ticketsExist=!loading && !! ticketsone;
     
     return{
         loading,
         ticketsone,
         ticketsExist,  
-        ticketsSoldNo:ticketsExist?Tickets.find({},{sort:{datePassed:1}}).count():0
+        ticketsNotSoldNo:ticketsExist?Tickets.find({vendorCodeRedac:Meteor.user().codeRedac,statut:"NOT_SOLD"},{sort:{datePassed:1}}).count():0,
+        ticketsSoldNo:ticketsExist?Tickets.find({vendorCodeRedac:Meteor.user().codeRedac,statut:"SOLD"},{sort:{datePassed:1}}).count():0
+
     };
 },CreateSaleForm);
 
@@ -303,6 +315,11 @@ const styles={
     underlineFocusStyle:{
         color:'gray',
         borderColor:'gray'
+    },
+    hintStyle:{
+        color:'darkgray'
+    },floatingLabelStyle:{
+        color:'darkgray'
     },
     dialogContainerStyle:{
         
