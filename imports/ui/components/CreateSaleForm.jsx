@@ -35,7 +35,7 @@ if(areIntlLocalesSupported(['fr'])){
         this.state={
             dialogIsOpen:false,
             errorMsg:'',
-            eventId:Meteor.user().eventId,
+            eventId:Meteor.user()?Meteor.user().eventId:'',
             //Meteor.user().ticketIntervalFin-Meteor.user().ticketIntervalDebut,            
             snackOpen:false,
             snackMsg:'',
@@ -180,7 +180,7 @@ if(areIntlLocalesSupported(['fr'])){
                     autoHideDuration={5000}
                     onRequestClose={this._snackClose.bind(this)}
                 />
-                <h2 style={{textAlign:'center'}}>{Meteor.user().eventName}</h2><br/>
+                <h2 style={{textAlign:'center'}}>{Meteor.user()?Meteor.user().eventName:''}</h2><br/>
                 <div style={{display:'flex',width:'100%',justifyContent:"space-between"}}>
                     <span style={{fontSize:"40px"}}>Tickets restants: <b>{this.props.ticketsNotSoldNo-1}</b></span>
                     <span style={{fontSize:"40px"}}>Tickets vendus: <b>{this.props.ticketsSoldNo}</b></span>
@@ -292,7 +292,7 @@ CreateSaleForm=reduxForm({
 export default createContainer(()=>{
     const tickethandle=Meteor.subscribe('TicketsSold');
     const loading=!tickethandle.ready();
-    const ticketsone=Tickets.findOne({vendorCodeRedac:Meteor.user().codeRedac,statut:"NOT_SOLD"});    
+    const ticketsone=Tickets.findOne({vendorCodeRedac:Meteor.user()?Meteor.user().codeRedac:'',statut:"NOT_SOLD"});    
     const ticketsExist=!loading && !! ticketsone;
     
     return{

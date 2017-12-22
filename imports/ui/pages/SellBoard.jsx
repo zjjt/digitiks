@@ -53,11 +53,12 @@ export default class Sellboard extends Component {
                             title="Déconnectez vous"
                             className="icono"
                             title="Aller au menu"
-                            onClick={Meteor.logout(,(err,res)=>{
-                                if(res){
-                                    alert("Vous êtes déconnecté");
-                                }
-                            })}
+                            onClick={()=>{
+                                Meteor.logout((err,res)=>{
+                                    FlowRouter.go('home');
+                                        alert("Vous êtes déconnecté");
+                                })
+                            }}
                             />
                         </ToolbarGroup>
                         <ToolbarGroup>

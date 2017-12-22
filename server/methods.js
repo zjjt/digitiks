@@ -5,8 +5,6 @@ import { check } from 'meteor/check';
 import {Accounts} from 'meteor/accounts-base';
 import {moment} from 'meteor/momentjs:moment';
 import {Email} from 'meteor/email';
-import Future from 'fibers/future';
-
 import {Events,Tickets,Sales} from '../imports/api/collections.js';
 var qr = require('qr-image');  
 var fs = require('fs');
@@ -144,7 +142,6 @@ export default ()=>{
         },
         createSale(values){
             this.unblock();
-            let fut=new Future();
             if(!values.ticketsRestants){
                 throw Meteor.Error("Vous ne disposez plus de tickets à vendre.");
             }else{
