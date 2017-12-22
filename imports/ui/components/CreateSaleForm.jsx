@@ -114,7 +114,7 @@ if(areIntlLocalesSupported(['fr'])){
             }  
             else if(!this.state.slider){
                 this.setState({
-                    errorMsg:"Veuillez attribuer un nombre de ticket suffisant au Vendeur/Bouncer."
+                    errorMsg:"Veuillez attribuer un nombre de ticket suffisant à l'acheteur."
                 });
                 this._dialogOpen();
             }
