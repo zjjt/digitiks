@@ -15,7 +15,7 @@ if(process.env.NODE_ENV==='development'){
 		devtools=window.devToolsExtension();
 	}else{
 		
-		middleware.push(logger);
+		//middleware.push(logger);
 		devtools=f=>f;
 	}
 }else{
