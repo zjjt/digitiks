@@ -1,12 +1,5 @@
 {
-    "public":{
-        "MAIL_SETTINGS":"smtps://postmaster%40sandbox1c0fcd2b7e944dfba78fa6323aa892ab.mailgun.org:63668ade69df7bc0d931358589542eb4@smtp.mailgun.org:465",
-        "ADMINMAIL":"zehijean1988@gmail.com"
 
-    },
-    "MAIL_SETTINGS":"smtps://event.ticketqr%40gmail.com:1.11EventQR@smtp.gmail.com:465/",
-    "ADMINLOGMDP":"QR@PROTO2017",
-    "ADMINMAIL":"zehijean1988@gmail.com"
 
    
 }
