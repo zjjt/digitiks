@@ -20,7 +20,7 @@ export default class Sellboard extends Component {
         super();
         this.state={
             slideIndex: 0,
-            slideTitle:["Effectuer une vente","Voir mes statistiques"]
+            slideTitle:[`${Meteor.user().username},effectuez une vente`,`${Meteor.user().username},Voir mes statistiques`]
         };
 
     }

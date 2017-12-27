@@ -97,7 +97,7 @@ export default ()=>{
                                 last_ticketNo_givenTo_Vendor:otherVendors.length?last_ticketNo_givenTo_Previous_Vendor+values.slider:values.slider
                                }
                            });
-                           for(let i=otherVendors.length?last_ticketNo_givenTo_Previous_Vendor+1:1;i<=last_ticketNo_givenTo_Previous_Vendor+values.slider+1;i++){
+                           for(let i=otherVendors.length?last_ticketNo_givenTo_Previous_Vendor+1:1;i<last_ticketNo_givenTo_Previous_Vendor+values.slider+1;i++){
                             Tickets.insert({
                                 ticket_no:i,
                                 eventId:chosenEvent._id,
@@ -143,7 +143,7 @@ export default ()=>{
         },
         createSale(values){
             this.unblock();
-            if(!values.ticketsRestants){
+            if(!values.ticketsRestants||values.ticketsRestants<=0){
                 throw Meteor.Error("Vous ne disposez plus de tickets à vendre.");
             }else{
                 let ticketsNotSold=Tickets.find({statut:"NOT_SOLD",passedEvent:false,},{sort:{dateCreation:1},limit:values.slider}).fetch();
@@ -153,11 +153,11 @@ export default ()=>{
                     for(let i=0;i<ticketsNotSold.length;i++){
                         //console.dir(ticketsNotSold[i]);
                         let messagetext=`Event: ${values.eventName}
-    Ticket N°: ${ticketsNotSold[i].ticket_no}
-    Ticket au nom de: ${values.civilite} ${values.buyername}
-    Contacts: ${values.telephone}
-    Prix d'achat: ${ticketsNotSold[i].price} FCFA
-    Date d'achat: ${moment(new Date()).format("DD-MM-YYYY")}
+Ticket N°: ${ticketsNotSold[i].ticket_no}
+Ticket au nom de: ${values.civilite} ${values.buyername}
+Contacts: ${values.telephone}
+Prix d'achat: ${ticketsNotSold[i].price} FCFA
+Date d'achat: ${moment(new Date()).format("DD-MM-YYYY")}
                         `;
                         var code = qr.image(messagetext, { type: 'png' }); 
                         code.pipe(require('fs').createWriteStream(`ticket_${ticketsNotSold[i].ticket_no}_${values.eventName}QR.png`));
@@ -168,7 +168,7 @@ export default ()=>{
                         nv.nomtotal=values.civilite+" "+values.buyername;
                         nv.codeqr=path;
                         nv.dateEvent=moment(event.date_event).format("DD-MM-YYYY");
-                        nv.timeEvent=moment(event.heure_event).format('hh:mm');
+                        nv.timeEvent=moment(event.heure_event).format('HH:mm');
                         
                         console.log(Meteor.rootPath)
 

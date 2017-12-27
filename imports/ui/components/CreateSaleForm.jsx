@@ -122,7 +122,7 @@ if(areIntlLocalesSupported(['fr'])){
                //alert(JSON.stringify(values));
                values.slider=this.state.slider;
                values.eventId=this.state.eventId;
-               values.ticketsRestants=this.props.ticketsNotSoldNo-1;
+               values.ticketsRestants=this.props.ticketsNotSoldNo;
                values.eventName=Meteor.user().eventName;
                 Meteor.call('createSale',values,(err)=>{
                     if(err){
@@ -182,7 +182,7 @@ if(areIntlLocalesSupported(['fr'])){
                 />
                 <h2 style={{textAlign:'center'}}>{Meteor.user()?Meteor.user().eventName:''}</h2><br/>
                 <div style={{display:'flex',width:'100%',justifyContent:"space-between"}}>
-                    <span style={{fontSize:"40px"}}>Tickets restants: <b>{this.props.ticketsNotSoldNo-1}</b></span>
+                    <span style={{fontSize:"40px"}}>Tickets restants: <b>{this.props.ticketsNotSoldNo}</b></span>
                     <span style={{fontSize:"40px"}}>Tickets vendus: <b>{this.props.ticketsSoldNo}</b></span>
                 </div>
                 <Divider/>
@@ -248,11 +248,12 @@ if(areIntlLocalesSupported(['fr'])){
                 
                 
                     <div style={{display:'flex',flexDirection:'column'}}>
-                        <p style={{flexGrow:1,textAlign:'center'}}>Nombre de tickets restants à vendre pour cet Event:<b>{this.state.ticketRest}</b> | Nombre de tickets attribués à l'acheteur:<b>{this.state.slider}</b></p>
+                        <p style={{flexGrow:1,textAlign:'center'}}>Nombre de tickets restants à vendre pour cet Event:<b>{this.props.ticketsNotSoldNo}</b> | Nombre de tickets attribués à l'acheteur:<b>{this.state.slider}</b></p>
                         <Slider
                             min={0}
-                            max={this.props.ticketsNotSoldNo-1>0?this.props.ticketsNotSoldNo-1:1}
+                            max={this.props.ticketsNotSoldNo>0?this.props.ticketsNotSoldNo:1}
                             step={1}
+                            disabled={this.props.ticketsNotSoldNo>0?false:true}
                             value={this.state.slider}
                             onChange={this.handleChangeS}
                             required
