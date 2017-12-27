@@ -113,7 +113,7 @@ class ListeVendors extends Component{
                                             <TableRowColumn title={row.role=="V"?'Vendeur':row.role=="B"?'Bouncer':'Vendeur Bouncer'}>{row.role=="V"?'Vendeur':row.role=="B"?'Bouncer':'Vendeur Bouncer'}</TableRowColumn>
                                             <TableRowColumn title={row.telephone}>{row.telephone}</TableRowColumn>
                                             <TableRowColumn title={row.email}>{row.email}</TableRowColumn>
-                                            <TableRowColumn title={row.ticketIntervalFin-row.ticketIntervalDebut}>{row.ticketIntervalFin-row.ticketIntervalDebut}</TableRowColumn>
+                                            <TableRowColumn title={(row.ticketIntervalFin+1)-row.ticketIntervalDebut}>{(row.ticketIntervalFin+1)-row.ticketIntervalDebut}</TableRowColumn>
                                             <TableRowColumn title={row.ticketIntervalDebut}>{row.ticketIntervalDebut}</TableRowColumn>
                                             <TableRowColumn title={row.ticketIntervalFin}>{row.ticketIntervalFin}</TableRowColumn>
                                             <TableRowColumn title={row.assignedToEvent?"Assigné":"Non Assigné"}>{row.assignedToEvent?"Assigné":"Non Assigné"}</TableRowColumn>

@@ -1,2 +1,2 @@
-FROM jshimko/meteor-launchpad:@latest
+FROM jshimko/meteor-launchpad:latest
 #deploy development image

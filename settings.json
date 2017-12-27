@@ -1,5 +1,7 @@
 {
 
-
+    "MAIL_SETTINGS":"smtps://event.ticketqr%40gmail.com:1.11EventQR@smtp.gmail.com:465/",
+    "ADMINLOGMDP":"QR@PROTO2017",
+    "ADMINMAIL":"zehijean1988@gmail.com"
    
 }

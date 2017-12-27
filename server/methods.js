@@ -62,7 +62,8 @@ export default ()=>{
             let last_ticketNo_givenTo_Previous_Vendor=0;
             if(typeof otherVendors[0] !="undefined" || otherVendors.length){
                 console.dir(otherVendors);
-                last_ticketNo_givenTo_Previous_Vendor=otherVendors[0].ticketInterval.fin;
+                last_ticketNo_givenTo_Previous_Vendor=otherVendors[0].ticketIntervalFin;
+                console.log("dernier ticket"+last_ticketNo_givenTo_Previous_Vendor);
             }
             
             //-----------------------------
@@ -82,7 +83,7 @@ export default ()=>{
                                 telephone:values.telephone,
                                 email:values.email,
                                 ticketIntervalDebut:otherVendors.length?last_ticketNo_givenTo_Previous_Vendor+1:1,
-                                ticketIntervalFin:values.slider+1,
+                                ticketIntervalFin:otherVendors.length?last_ticketNo_givenTo_Previous_Vendor+values.slider:values.slider,
                                 assignedToEvent:true,
                                 eventId:chosenEvent._id,
                                 eventName:chosenEvent.nom_event,
@@ -93,10 +94,10 @@ export default ()=>{
                            Events.update(chosenEvent._id,{
                                $set:{
                                 nb_vendeur_restant:--chosenEvent.nb_vendeur_restant,
-                                last_ticketNo_givenTo_Vendor:values.slider+1
+                                last_ticketNo_givenTo_Vendor:otherVendors.length?last_ticketNo_givenTo_Previous_Vendor+values.slider:values.slider
                                }
                            });
-                           for(let i=otherVendors.length?last_ticketNo_givenTo_Previous_Vendor+1:1;i<=values.slider+1;i++){
+                           for(let i=otherVendors.length?last_ticketNo_givenTo_Previous_Vendor+1:1;i<=last_ticketNo_givenTo_Previous_Vendor+values.slider+1;i++){
                             Tickets.insert({
                                 ticket_no:i,
                                 eventId:chosenEvent._id,
@@ -115,11 +116,11 @@ export default ()=>{
                            }
                            let message="";
                            if(values.role=="V"){
-                             message="<em>Ceci est un message automatique, veuillez ne pas y répondre.</em><br/><br/>Bonjour Monsieur/Madame,<br/><br/>Veuillez trouver ci dessous vos accès à l'application <b>QRPASS</b> en tant que <b>VENDEUR</b> . <br/><br/>Identifiant: <b>"+values.username+"</b><br/> Mot de passe: <b>"+values.passwordconf+"</b>. <br/><br/>Votre application est accèssible via le lien suivant: http://10.11.100.48:8087 <br/>Pour un fonctionnement optimal sur le web veuillez ouvrir l'application avec les navigateurs <b>Google Chrome</b> ou <b>Mozilla Firefox.</b><br/><br/> Cordialement, <br/><br/><b>QRPASS 2017 tous droits réservés</b>";
+                             message="<em>Ceci est un message automatique, veuillez ne pas y répondre.</em><br/><br/>Bonjour Monsieur/Madame,<br/><br/>Veuillez trouver ci dessous vos accès à l'application <b>QRPASS</b> en tant que <b>VENDEUR</b> . <br/><br/>Identifiant: <b>"+values.username+"</b><br/> Mot de passe: <b>"+values.passwordconf+"</b>. <br/><br/>Votre application est accèssible via le lien suivant: http://10.11.100.48:8088 <br/>Pour un fonctionnement optimal sur le web veuillez ouvrir l'application avec les navigateurs <b>Google Chrome</b> ou <b>Mozilla Firefox.</b><br/><br/> Cordialement, <br/><br/><b>QRPASS 2017 tous droits réservés</b>";
                            }else if(values.role=="B"){
                             message="<em>Ceci est un message automatique, veuillez ne pas y répondre.</em><br/><br/>Bonjour Monsieur/Madame,<br/><br/>Veuillez trouver ci dessous vos accès à l'application <b>QRPASS Mobile</b> en tant que <b>BOUNCER</b> . <br/><br/>Identifiant: <b>"+values.username+"</b><br/> Mot de passe: <b>"+values.passwordconf+"</b>. <br/><br/> Cordialement, <br/><br/><b>QRPASS 2017 tous droits réservés</b>";                            
                            }else{
-                            message="<em>Ceci est un message automatique, veuillez ne pas y répondre.</em><br/><br/>Bonjour Monsieur/Madame,<br/><br/>Veuillez trouver ci dessous vos accès à l'application <b>QRPASS</b> et <b>QRPASS Mobile</b> en tant que <b>VENDEUR-BOUNCER</b> . <br/><br/>Identifiant: <b>"+values.username+"</b><br/> Mot de passe: <b>"+values.passwordconf+"</b>. <br/><br/>Votre application est accèssible via le lien suivant: http://10.11.100.48:8087 <br/>Pour un fonctionnement optimal sur le web veuillez ouvrir l'application avec les navigateurs <b>Google Chrome</b> ou <b>Mozilla Firefox.</b><br/><br/> Cordialement, <br/><br/><b>QRPASS 2017 tous droits réservés</b>";                            
+                            message="<em>Ceci est un message automatique, veuillez ne pas y répondre.</em><br/><br/>Bonjour Monsieur/Madame,<br/><br/>Veuillez trouver ci dessous vos accès à l'application <b>QRPASS</b> et <b>QRPASS Mobile</b> en tant que <b>VENDEUR-BOUNCER</b> . <br/><br/>Identifiant: <b>"+values.username+"</b><br/> Mot de passe: <b>"+values.passwordconf+"</b>. <br/><br/>Votre application est accèssible via le lien suivant: http://10.11.100.48:8088 <br/>Pour un fonctionnement optimal sur le web veuillez ouvrir l'application avec les navigateurs <b>Google Chrome</b> ou <b>Mozilla Firefox.</b><br/><br/> Cordialement, <br/><br/><b>QRPASS 2017 tous droits réservés</b>";                            
                            }
                             //console.log("Valeur de la variable environment mail "+process.env.MAIL_URL);
                            // try{

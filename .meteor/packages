@@ -21,7 +21,7 @@ shell-server@0.3.0            # Server-side component of the `meteor shell` comm
 #insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
 stolinski:stylus-multi
 email@1.2.3
-meteortoys:allthings
+#meteortoys:allthings
 random@1.0.10
 momentjs:moment 
 react-meteor-data

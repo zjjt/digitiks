@@ -18,7 +18,7 @@ export default class AdminDashboard extends Component{
                                 className="cardsHeader" 
                             />
                             <CardMedia className="cardsMedia">
-                                <img src="../img/background.jpg"/>
+                                
                             </CardMedia>
                         </Card>
                     </div>
@@ -29,7 +29,7 @@ export default class AdminDashboard extends Component{
                                 className="cardsHeader" 
                             />
                             <CardMedia className="cardsMedia">
-                                <img src="../img/background.jpg"/>
+                                
                             </CardMedia>
                          </Card>
                     </div>
@@ -40,7 +40,7 @@ export default class AdminDashboard extends Component{
                                 className="cardsHeader" 
                             />
                             <CardMedia className="cardsMedia">
-                                <img src="../img/background.jpg"/>
+                                
                             </CardMedia>
                          </Card>
                     </div>
